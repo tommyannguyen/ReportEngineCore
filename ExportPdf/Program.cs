@@ -11,7 +11,8 @@ namespace ExportPdf
         {
             var html2Pdf = new Html2Pdf();
             var viewEngine = new HtmlViewEngine();
-            var body = await viewEngine.RenderAsync(new { Name = "Con bướm xinh", Job = 100 }, "index");
+            var htmlBody = await File.ReadAllTextAsync($"Views\\index.html");
+            var body = await viewEngine.RenderAsync(new { Name = "Con bướm xinh", Job = 100 }, htmlBody);
             File.WriteAllBytes("tententen.pdf", html2Pdf.ExportFromHtml(body));
         }
     }

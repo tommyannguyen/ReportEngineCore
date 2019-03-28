@@ -3,7 +3,7 @@ using System;
 
 namespace Reporting
 {
-    public class Html2Pdf
+    public sealed class Html2Pdf
     {
         public byte[] ExportFromHtml(string html)
         {

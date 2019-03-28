@@ -1,25 +1,20 @@
 ﻿using Fluid;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.Encodings.Web;
+using Reporting.HtmlEngine;
 using System.Threading.Tasks;
 
 namespace Reporting
 {
-    public class HtmlViewEngine
+    public sealed class HtmlViewEngine : IHtmlRenderEngine
     {
-        public async Task<string> RenderAsync(object model, string viewName = "index")
+        public const string _MODEL_ = "model"; 
+        public async Task<string> RenderAsync(object model, string template)
         {
-            var htmlBody = await File.ReadAllTextAsync($"Views\\{viewName}.html");
-            if (FluidTemplate.TryParse(htmlBody, out var template))
+            if (FluidTemplate.TryParse(template, out var templateResult))
             {
                 var context = new TemplateContext();
                 context.MemberAccessStrategy.Register(model.GetType()); 
-                context.SetValue("model", model);
-                
-                return template.Render(context);
+                context.SetValue(_MODEL_, model);         
+                return await templateResult.RenderAsync(context);
             }
             return string.Empty;
         }
