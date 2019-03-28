@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Reporting
 {
-    public sealed class HtmlViewEngine : IHtmlRenderEngine
+    public sealed class FluidHtmlViewEngine : IHtmlRenderEngine
     {
         public const string _MODEL_ = "model"; 
         public async Task<string> RenderAsync(object model, string template)

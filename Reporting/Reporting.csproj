@@ -8,7 +8,6 @@
     <None Remove="libwkhtmltox.dll" />
     <None Remove="libwkhtmltox.dylib" />
     <None Remove="libwkhtmltox.so" />
-    <None Remove="Views\index.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,9 +18,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="libwkhtmltox.so">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

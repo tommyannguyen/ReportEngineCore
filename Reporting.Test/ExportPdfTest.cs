@@ -1,13 +1,14 @@
-﻿using Reporting;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace ExportPdf
+namespace Reporting.Test
 {
-    class Program
+    public class ExportPdfTest
     {
-        static async Task Main(string[] args)
+        [Fact]
+        public async Task ExportPdfFromEngineAsync()
         {
             var html2Pdf = new Html2Pdf();
             var viewEngine = new FluidHtmlViewEngine();
