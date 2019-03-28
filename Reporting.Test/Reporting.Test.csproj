@@ -26,4 +26,10 @@
     <ProjectReference Include="..\Reporting\Reporting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Css\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
