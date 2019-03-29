@@ -1,20 +1,23 @@
-﻿using Reporting.HtmlEngine;
+﻿using Microsoft.Extensions.Logging;
+using Reporting.HtmlEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 namespace Reporting
 {
-    public sealed class HtmlPreMailerViewEngine : IHtmlRenderEngine
+    public sealed class HtmlJsCssCleanupEngine : IHtmlRenderEngine
     {
         private Dictionary<string, string> _linkedCssCache = new Dictionary<string, string>();
         private string _rootPath;
-        public HtmlPreMailerViewEngine(string rootPath)
+        private readonly ILogger _logger;
+
+        public HtmlJsCssCleanupEngine(string rootPath, ILoggerFactory loggerFactory)
         {
             _rootPath = rootPath;
+            _logger = loggerFactory.CreateLogger<HtmlJsCssCleanupEngine>();
         }
         public async Task<string> RenderAsync(object model, string htmlSource)
         {
@@ -37,7 +40,6 @@ namespace Reporting
                         if (link.Contains("http"))
                         {
                             var webRequest = HttpWebRequest.Create(link);
-
                             var webResponse = webRequest.GetResponse();
 
                             using (Stream stream = webResponse.GetResponseStream())
@@ -63,7 +65,7 @@ namespace Reporting
                 }
                 catch (Exception ex)
                 {
-
+                    _logger.LogError("Css error : ", ex);
                 }
             }
             return html;

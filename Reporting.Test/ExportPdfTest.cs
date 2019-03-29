@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Reporting.Test
 {
-    public class ExportPdfTest
+    public class ExportPdfTest : TestBase
     {
         [Fact]
         public async Task ExportPdfFromEngineAsync()
@@ -15,8 +15,8 @@ namespace Reporting.Test
             var html2Pdf = new Html2Pdf();
             var outPutDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            IHtmlRenderEngine viewEngine = new FluidHtmlViewEngine();
-            IHtmlRenderEngine preMailerEngine = new HtmlPreMailerViewEngine(outPutDirectory);
+            IHtmlRenderEngine viewEngine = new FluidHtmlViewEngine(_logFactory);
+            IHtmlRenderEngine preMailerEngine = new HtmlJsCssCleanupEngine(outPutDirectory, _logFactory);
             var model = new { Name = "Con bướm xinh", Job = 100 };
             var htmlBody = await File.ReadAllTextAsync($"Views\\index.html");
 
