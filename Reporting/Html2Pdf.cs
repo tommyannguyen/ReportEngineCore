@@ -1,5 +1,4 @@
 ﻿using DinkToPdf;
-using System;
 
 namespace Reporting
 {

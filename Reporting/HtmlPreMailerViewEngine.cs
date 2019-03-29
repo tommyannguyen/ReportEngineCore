@@ -22,10 +22,10 @@ namespace Reporting
         public async Task<string> RenderAsync(object model, string htmlSource)
         {
             htmlSource = ResolveCSSLinks(htmlSource);
+            htmlSource = ResolveJsLinks(htmlSource);
             var result = PreMailer.Net.PreMailer.MoveCssInline(htmlSource);
             return await Task.FromResult(result.Html);
         }
-
         private string ResolveCSSLinks(string html)
         {
             var matches = Regex.Matches(html, @"<link\s*\s+href=""([^""]+)""\s*/>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
@@ -61,7 +61,7 @@ namespace Reporting
                     else
                         css = _linkedCssCache[link];
 
-                    html = html.Replace(match.Value,"").Replace("<body>", string.Format("<style type=\"text/css\">{0}</style><body>", css));
+                    html = html.Replace(match.Value, string.Format("<style type=\"text/css\">{0}</style>", css));
                 }
                 catch (Exception ex)
                 {
@@ -75,5 +75,51 @@ namespace Reporting
             return Regex.Replace(css, @"[:]+-[\-a-z0-9]+", string.Empty, RegexOptions.IgnoreCase);
         }
 
+
+        private string ResolveJsLinks(string html)
+        {
+            var matches = Regex.Matches(html, @"<script\s*\s+src=""([^""]+)""\s*></script>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            foreach (Match match in matches)
+            {
+                try
+                {
+                    string js = string.Empty;
+                    string link = match.Groups[1].Value;
+                    if (!_linkedCssCache.ContainsKey(link))
+                    {
+                        if (link.Contains("http"))
+                        {
+                            var webRequest = HttpWebRequest.Create(link);
+                            var webResponse = webRequest.GetResponse();
+
+                            using (Stream stream = webResponse.GetResponseStream())
+                            {
+                                StreamReader sr = new StreamReader(stream);
+
+                                js = RemovePremailerNetBrokenSelectorModifiers(sr.ReadToEnd());
+                            }
+                        }
+                        else if (!string.IsNullOrEmpty(_rootPath))
+                        {
+                            var currentPath = _rootPath + link.Replace("../", "").Replace("/", "\\");
+                            js = RemovePremailerNetBrokenSelectorModifiers(File.ReadAllText(currentPath));
+
+                        }
+
+                        _linkedCssCache.Add(link, js);
+                    }
+                    else
+                        js = _linkedCssCache[link];
+
+                    html = html.Replace(match.Value, string.Format("<script>{0}</script>", js));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Css error : ", ex);
+                }
+            }
+            return html;
+        }
     }
 }
+    
