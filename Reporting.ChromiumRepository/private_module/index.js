@@ -11,7 +11,10 @@ const options = {
         displayHeaderFooter: false,
         headerTemplate: '',
         footerTemplate: '',
-        completionTrigger: new htmlPdf.CompletionTrigger.Timer(10000),
+        completionTrigger: new htmlPdf.CompletionTrigger.Event(
+            'reporting-engine-has-finished', // name of the event to listen for
+            '#my_reporting_finished', // optional DOM element CSS selector to listen on, defaults to body
+          ),
     },
 };
 
