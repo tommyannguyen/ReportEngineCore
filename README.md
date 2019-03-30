@@ -1,18 +1,56 @@
 ﻿# ReportEngineCore
 .Net core report engine
 For reporting 
+@Author: tommy.an.nguyen@gmail.com
 
- var html2Pdf = new Html2Pdf();
-            var outPutDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            IHtmlRenderEngine viewEngine = new FluidHtmlViewEngine();
-            IHtmlRenderEngine preMailerEngine = new HtmlPreMailerViewEngine(outPutDirectory);
-            var model = new { Name = "Con bướm xinh", Job = 100 };
-            var htmlBody = await File.ReadAllTextAsync($"Views\\index.html");
+[Fact]
+public async Task ExportPdfFromEngineAsync()
+{
+    // factory return context
+    using (var reportContext = CreateReportContext())
+    {
+        var html2Pdf = new DinkToPdfRepository();
+        IHtmlRenderTask viewEngine = new FluidRenderTask(reportContext);
+        IHtmlRenderTask preMailerEngine = new HtmlJsCssCleanupEngine(OutPutDirectory, reportContext);
+        var model = new { Name = "Con bướm xinh", Job = 100 };
+        var htmlBody = await File.ReadAllTextAsync($"Views\\index.html");
 
-            var body = await viewEngine.RenderAsync(model, htmlBody);
-            body = await preMailerEngine.RenderAsync(model, body);
+        var body = await viewEngine.RenderAsync(model, htmlBody);
+        body = await preMailerEngine.RenderAsync(model, body);
 
-            File.WriteAllBytes("tententen.html", Encoding.UTF8.GetBytes(body));
-            File.WriteAllBytes("tententen.pdf", html2Pdf.ExportFromHtml(body));
-            Assert.True(true);
+        File.WriteAllBytes("tententen.html", Encoding.UTF8.GetBytes(body));
+        File.WriteAllBytes("tententen.pdf", html2Pdf.ExportFromHtml(body));
+        Assert.True(true);
+    }
+}
+
+
+[Fact]
+public async Task ExportChartJsHtmlAsync()
+{
+    // factory return context
+    using (var reportContext = CreateReportContext())
+    {
+        var html2Pdf = new DinkToPdfRepository();
+        IHtmlRenderTask viewEngine = new FluidRenderTask(reportContext);
+        IHtmlRenderTask preMailerEngine = new HtmlJsCssCleanupEngine(OutPutDirectory, reportContext);
+
+        var chromiumEngineRepositoty = new ChromiumRepositoty(reportContext);
+        var model = new { Name = "Con bướm xinh", Job = 100 };
+
+
+        var htmlBody = await File.ReadAllTextAsync("htmls\\basic.html");
+
+        var body = await viewEngine.RenderAsync(model, htmlBody);
+        body = await preMailerEngine.RenderAsync(model, body);
+        
+        File.WriteAllBytes("ExportHtmlAsync.pdf", chromiumEngineRepositoty.ExportFromHtml(body));
+    }
+    Assert.True(true);
+}
+
+private ReportContext CreateReportContext()
+{
+    return new ReportContext(_logFactory, "D:\\Temp");
+}
