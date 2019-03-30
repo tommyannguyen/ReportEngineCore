@@ -3,7 +3,8 @@
 For reporting 
 @Author: tommy.an.nguyen@gmail.com
 
-
+Result pdf: 
+https://github.com/tommyannguyen/ReportEngineCore/raw/master/ExportHtmlAsync.pdf
 
 using Reporting.ChromiumRepository;
 using System;
@@ -69,5 +70,4 @@ namespace Reporting.Test
         }
     }
 }
-
 
