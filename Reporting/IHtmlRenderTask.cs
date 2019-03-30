@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Reporting.HtmlEngine
+namespace Reporting
 {
-    public interface IHtmlRenderEngine
+    public interface IHtmlRenderTask
     {
         Task<string> RenderAsync(object model, string template);
     }

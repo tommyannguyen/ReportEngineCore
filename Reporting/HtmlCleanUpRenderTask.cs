@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Reporting.HtmlEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,16 +7,16 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 namespace Reporting
 {
-    public sealed class HtmlJsCssCleanupEngine : IHtmlRenderEngine
+    public sealed class HtmlJsCssCleanupEngine : IHtmlRenderTask
     {
         private Dictionary<string, string> _linkedCssCache = new Dictionary<string, string>();
         private string _rootPath;
         private readonly ILogger _logger;
 
-        public HtmlJsCssCleanupEngine(string rootPath, ILoggerFactory loggerFactory)
+        public HtmlJsCssCleanupEngine(string rootPath, ReportContext reportContext)
         {
             _rootPath = rootPath;
-            _logger = loggerFactory.CreateLogger<HtmlJsCssCleanupEngine>();
+            _logger = reportContext.LoggerFactory.CreateLogger<HtmlJsCssCleanupEngine>();
         }
         public async Task<string> RenderAsync(object model, string htmlSource)
         {

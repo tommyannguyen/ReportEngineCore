@@ -1,19 +1,18 @@
 ﻿using Fluid;
 using Microsoft.Extensions.Logging;
-using Reporting.HtmlEngine;
 using System;
 using System.Threading.Tasks;
 
 namespace Reporting
 {
-    public sealed class FluidHtmlViewEngine : IHtmlRenderEngine
+    public sealed class FluidRenderTask : IHtmlRenderTask
     {
         public const string _MODEL_ = "model";
         private readonly ILogger _logger;
 
-        public FluidHtmlViewEngine(ILoggerFactory loggerFactory)
+        public FluidRenderTask(ReportContext reportContext)
         {
-            _logger = loggerFactory.CreateLogger<FluidHtmlViewEngine>();
+            _logger = reportContext.LoggerFactory.CreateLogger<FluidRenderTask>();
         }
         public async Task<string> RenderAsync(object model, string template)
         {

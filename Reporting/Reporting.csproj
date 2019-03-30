@@ -29,4 +29,8 @@
     <PackageReference Include="PreMailer.Net" Version="2.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HtmlEngine\" />
+  </ItemGroup>
+
 </Project>

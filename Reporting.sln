@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reporting", "Reporting\Repo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reporting.Test", "Reporting.Test\Reporting.Test.csproj", "{51556838-F97D-408A-984E-7197F467BB3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reporting.ChromiumRepository", "Reporting.ChromiumRepository\Reporting.ChromiumRepository.csproj", "{57F88AF4-E469-47A9-A7BF-4A7018852AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reporting.ChromiumRepository", "Reporting.ChromiumRepository\Reporting.ChromiumRepository.csproj", "{57F88AF4-E469-47A9-A7BF-4A7018852AA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D18B2D37-F511-426F-A61D-09FC18E91071}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Console", "Test.Console\Test.Console.csproj", "{5A1C8158-7D00-4EAE-B8AB-EA3C5FA4A103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,17 +29,12 @@ Global
 		{57F88AF4-E469-47A9-A7BF-4A7018852AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57F88AF4-E469-47A9-A7BF-4A7018852AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57F88AF4-E469-47A9-A7BF-4A7018852AA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A1C8158-7D00-4EAE-B8AB-EA3C5FA4A103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A1C8158-7D00-4EAE-B8AB-EA3C5FA4A103}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A1C8158-7D00-4EAE-B8AB-EA3C5FA4A103}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A1C8158-7D00-4EAE-B8AB-EA3C5FA4A103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{51556838-F97D-408A-984E-7197F467BB3A} = {D18B2D37-F511-426F-A61D-09FC18E91071}
-		{5A1C8158-7D00-4EAE-B8AB-EA3C5FA4A103} = {D18B2D37-F511-426F-A61D-09FC18E91071}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {206F819C-32A5-46F9-8CF7-F087DC676770}

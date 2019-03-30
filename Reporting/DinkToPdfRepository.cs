@@ -2,10 +2,10 @@
 
 namespace Reporting
 {
-    public sealed class Html2Pdf : IHtml2Pdf
+    public sealed class DinkToPdfRepository : IHtml2Pdf
     {
         private readonly GlobalSettings _globalSettings;
-        public Html2Pdf(GlobalSettings globalSettings = null)
+        public DinkToPdfRepository(GlobalSettings globalSettings = null)
         {
             _globalSettings = globalSettings ?? new GlobalSettings()
             {
