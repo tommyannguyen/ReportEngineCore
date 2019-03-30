@@ -1,5 +1,17 @@
 ﻿<html>
 <link href="../Css/style.css" />
+
+<script>
+
+    $(document).ready(function (e) {
+        $('canvas').each(function (e) {
+            var image = new Image();
+            image.src = this.toDataURL("image/png");
+
+            $(this).replaceWith(image);
+        });
+    });
+</script>
 <body>
     Con buom xinh
     Hello {{ model.Name }} {{ model.Job }}

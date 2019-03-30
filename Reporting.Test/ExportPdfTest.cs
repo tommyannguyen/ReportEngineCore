@@ -1,4 +1,5 @@
-﻿using Reporting.HtmlEngine;
+﻿using Reporting.ChromiumRepository;
+using Reporting.HtmlEngine;
 using System;
 using System.IO;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Reporting.Test
 {
     public class ExportPdfTest : TestBase
     {
-        public string OutPutDirectory => AppDomain.CurrentDomain.BaseDirectory;
+
         [Fact]
         public async Task ExportPdfFromEngineAsync()
         {
@@ -34,6 +35,9 @@ namespace Reporting.Test
             var html2Pdf = new Html2Pdf();
             IHtmlRenderEngine viewEngine = new FluidHtmlViewEngine(_logFactory);
             IHtmlRenderEngine preMailerEngine = new HtmlJsCssCleanupEngine(OutPutDirectory, _logFactory);
+            var tempPath = "D:\\Temp";
+            
+            var chromiumEngineRepositoty = new ChromiumEngineRepositoty(_logFactory, tempPath);
             var model = new { Name = "Con bướm xinh", Job = 100 };
 
 
@@ -43,9 +47,8 @@ namespace Reporting.Test
             body = await preMailerEngine.RenderAsync(model, body);
 
             File.WriteAllBytes("ExportHtmlAsync.html", Encoding.UTF8.GetBytes(body));
-            File.WriteAllBytes("ExportHtmlAsync.pdf", html2Pdf.ExportFromHtml(body));
+            File.WriteAllBytes("ExportHtmlAsync.pdf", chromiumEngineRepositoty.ExportFromHtml(body));
             Assert.True(true);
         }
-
     }
 }
