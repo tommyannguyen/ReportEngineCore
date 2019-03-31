@@ -1,5 +1,6 @@
 ﻿using Reporting.ChromiumRepository;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -46,15 +47,27 @@ namespace Reporting.Test
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // the code that you want to measure comes here
             int iterations = 100;
+            var htmlFiles = new List<string>() {
+                "htmls\\basic.html",
+                "htmls\\interpolation-modes.html",
+                "htmls\\line-styles.html",
+                "htmls\\multi-axis.html",
+                "htmls\\point-sizes.html",
+                "htmls\\point-styles.html",
+                "htmls\\skip-points.html",
+                "htmls\\stepped.html"
+            };
             Parallel.ForEach(Enumerable.Range(0, iterations), async (s, state, i) =>
                 {
                     try
                     {
-                        await ExportPdf($"Results\\{i}.pdf");
+                        var htmlFileName = htmlFiles[s % htmlFiles.Count];
+                        await ExportPdf($"Results\\{i}.pdf", htmlFileName);
                     }
                     catch(Exception ex)
                     {
                         Trace.WriteLine(ex.Message);
+                        Assert.True(false);
                     }
                 }
             );
@@ -71,7 +84,7 @@ namespace Reporting.Test
             await ProcessAsyncHelper.ExecuteShellCommand("nodejs.exe", ".\\private_module\\index.js tt ss", 10000);
             Assert.True(true);
         }
-        private async Task ExportPdf(string fileName = "ExportHtmlAsync.pdf")
+        private async Task ExportPdf(string pdfFileName = "ExportHtmlAsync.pdf" , string htmlFileName = "htmls\\basic.html")
         {
             // factory return context
             using (var reportContext = CreateReportContext())
@@ -84,12 +97,12 @@ namespace Reporting.Test
                 var model = new { Name = "Con bướm xinh", Job = 100 };
 
 
-                var htmlBody = await File.ReadAllTextAsync("htmls\\basic.html");
+                var htmlBody = await File.ReadAllTextAsync(htmlFileName);
 
                 var body = await viewEngine.RenderAsync(model, htmlBody);
                 body = await preMailerEngine.RenderAsync(model, body);
 
-                File.WriteAllBytes(fileName, chromiumEngineRepositoty.ExportFromHtml(body));
+                File.WriteAllBytes(pdfFileName, chromiumEngineRepositoty.ExportFromHtml(body));
             }
         }
         private ReportContext CreateReportContext()
