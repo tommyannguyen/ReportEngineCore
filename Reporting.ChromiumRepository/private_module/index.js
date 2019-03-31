@@ -14,12 +14,11 @@ const options = {
         completionTrigger: new htmlPdf.CompletionTrigger.Event(
             'reporting-engine-has-finished', // name of the event to listen for
             '#my_reporting_finished', // optional DOM element CSS selector to listen on, defaults to body,
-            50000
-          ),
+                10000
+        ),
     },
 };
 
 htmlPdf.create(html, options).then((pdf) => {
     pdf.toFile(pdfPath);
-    process.exit(1);
 });

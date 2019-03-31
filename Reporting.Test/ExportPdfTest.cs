@@ -45,8 +45,8 @@ namespace Reporting.Test
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // the code that you want to measure comes here
-           
-            Parallel.ForEach(Enumerable.Range(0, 100), async (s, state, i) =>
+            int iterations = 100;
+            Parallel.ForEach(Enumerable.Range(0, iterations), async (s, state, i) =>
                 {
                     try
                     {
@@ -58,9 +58,17 @@ namespace Reporting.Test
                     }
                 }
             );
+            
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Trace.WriteLine(elapsedMs + "ms");
+            Assert.True(true);
+        }
+
+        [Fact]
+        public async Task TestProcessHelper()
+        {
+            await ProcessAsyncHelper.ExecuteShellCommand("nodejs.exe", ".\\private_module\\index.js tt ss", 10000);
             Assert.True(true);
         }
         private async Task ExportPdf(string fileName = "ExportHtmlAsync.pdf")

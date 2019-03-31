@@ -26,6 +26,7 @@ namespace Reporting.ChromiumRepository
             var htmlPath = $"{_reportContext.GetSessionPath()}\\{sectionFileId}.html";
             File.WriteAllText(htmlPath, html);
             var pdfFilePath = $"{_reportContext.GetSessionPath()}\\{sectionFileId}.pdf";
+ 
             string log = RunProgress(htmlPath, pdfFilePath);
             if (File.Exists(pdfFilePath))
             {
@@ -52,13 +53,11 @@ namespace Reporting.ChromiumRepository
                     cmd.StartInfo.UseShellExecute = false;
 
                     cmd.Start();
-
                     cmd.StandardInput.WriteLine($"node .\\private_module\\index.js {htmlPath} {pdfFilePath}");
                     cmd.StandardInput.Flush();
                     cmd.StandardInput.Close();
 
-                    var log = cmd.StandardOutput.ReadToEnd();
-                    return log;
+                    return cmd.StandardOutput.ReadToEnd();
                 }
             }
         }
