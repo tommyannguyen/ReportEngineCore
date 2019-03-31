@@ -1,5 +1,20 @@
 'use strict';
 
+var plugin = {
+    id: 'savetopng',
+
+    afterRender: function (chart, options) {
+        if (!chart.$isFinished) {
+            chart.$isFinished = true;
+            makeReportingRerender();
+        }
+    }
+};
+
+if (Chart.plugins) {
+    Chart.plugins.register(plugin);
+}
+
 window.chartColors = {
 	red: 'rgb(255, 99, 132)',
 	orange: 'rgb(255, 159, 64)',

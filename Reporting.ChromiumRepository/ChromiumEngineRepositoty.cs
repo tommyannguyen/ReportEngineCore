@@ -26,23 +26,8 @@ namespace Reporting.ChromiumRepository
             var htmlPath = $"{_reportContext.GetSessionPath()}\\{sectionFileId}.html";
             File.WriteAllText(htmlPath, html);
             var pdfFilePath = $"{_reportContext.GetSessionPath()}\\{sectionFileId}.pdf";
-
-            var cmd = new Process();
-            cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.RedirectStandardInput = true;
-            cmd.StartInfo.RedirectStandardOutput = true;
-            cmd.StartInfo.CreateNoWindow = true;
-            cmd.StartInfo.UseShellExecute = false;
-
-            cmd.Start();
-
-            cmd.StandardInput.WriteLine("cd private_module");
-            cmd.StandardInput.WriteLine($"node index.js {htmlPath} {pdfFilePath}");
-            cmd.StandardInput.Flush();
-            cmd.StandardInput.Close();
-
-            var log = cmd.StandardOutput.ReadToEnd();
-            if(File.Exists(pdfFilePath))
+            string log = RunProgress(htmlPath, pdfFilePath);
+            if (File.Exists(pdfFilePath))
             {
                 _logger.LogInformation(log);
                 _reportContext.AddTempFiles("ChromiumRepositoty", new List<string> { htmlPath, pdfFilePath });
@@ -51,6 +36,31 @@ namespace Reporting.ChromiumRepository
             _logger.LogError(log);
             _reportContext.AddTempFiles("ChromiumRepositoty", new List<string> { htmlPath });
             throw new Exception("Cant translate html to pdf !");
+        }
+
+        private static object _lock = new object();
+        private static string RunProgress(string htmlPath, string pdfFilePath)
+        {
+            lock (_lock)
+            {
+                using (var cmd = new Process())
+                {
+                    cmd.StartInfo.FileName = "cmd.exe";
+                    cmd.StartInfo.RedirectStandardInput = true;
+                    cmd.StartInfo.RedirectStandardOutput = true;
+                    cmd.StartInfo.CreateNoWindow = true;
+                    cmd.StartInfo.UseShellExecute = false;
+
+                    cmd.Start();
+
+                    cmd.StandardInput.WriteLine($"node .\\private_module\\index.js {htmlPath} {pdfFilePath}");
+                    cmd.StandardInput.Flush();
+                    cmd.StandardInput.Close();
+
+                    var log = cmd.StandardOutput.ReadToEnd();
+                    return log;
+                }
+            }
         }
 
         public byte[] ExportFromUri(string uri)

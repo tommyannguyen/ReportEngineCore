@@ -11011,7 +11011,12 @@
 
 
 //===========REPORTING=========================
-
+function markReportUiRenderFinhised()
+{
+    $('<input>').attr('type', 'hidden')
+        .attr('id', 'my_reporting_finished')
+        .appendTo('body');
+}
 function makeReportingRerender() {
     $('canvas').each(function (e) {
         var image = new Image();
@@ -11021,21 +11026,6 @@ function makeReportingRerender() {
         
     });
     if ($('canvas').length == 0) {
-        $('<input>').attr('type', 'hidden')
-            .attr('id', 'my_reporting_finished')
-            .appendTo('body');
+        markReportUiRenderFinhised();
     }
 }
-
-var plugin = {
-    id: 'savetopng',
-
-    afterRender: function (chart, options) {
-        if (!chart.$isFinished) {
-            chart.$isFinished = true;
-            makeReportingRerender();
-        }
-    }
-};
-
-Chart.plugins.register(plugin);

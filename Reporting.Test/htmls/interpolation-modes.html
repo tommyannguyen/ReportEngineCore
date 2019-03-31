@@ -2,16 +2,17 @@
 <html>
 
 <head>
-	<title>Line Chart - Cubic interpolation mode</title>
-	<script src="../../../dist/Chart.min.js"></script>
-	<script src="../../utils.js"></script>
-	<style>
-	canvas{
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
-	}
-	</style>
+    <title>Line Chart - Cubic interpolation mode</title>
+    <script src="../js/chart.js"></script>
+    <script src="../js/reporting.js"></script>
+    <script src="../js/utils.js"></script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -81,7 +82,11 @@
 							suggestedMax: 200,
 						}
 					}]
-				}
+                },
+                //IMPORTANT
+                animation: {
+                    duration: 0
+                }
 			}
 		};
 

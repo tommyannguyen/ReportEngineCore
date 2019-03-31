@@ -2,28 +2,31 @@
 <html>
 
 <head>
-	<title>Stepped Line Chart</title>
-	<script src="../../../dist/Chart.min.js"></script>
-	<script src="../../utils.js"></script>
-	<style>
-	canvas {
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
-	}
-	.chart-container {
-		width: 500px;
-		margin-left: 40px;
-		margin-right: 40px;
-		margin-bottom: 40px;
-	}
-	.container {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-	</style>
+    <title>Stepped Line Chart</title>
+    <script src="../js/chart.js"></script>
+    <script src="../js/reporting.js"></script>
+    <script src="../js/utils.js"></script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .chart-container {
+            width: 500px;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -48,7 +51,11 @@
 					title: {
 						display: true,
 						text: details.label,
-					}
+                    },
+                    //IMPORTANT
+                    animation: {
+                        duration: 0
+                    }
 				}
 			};
 		}

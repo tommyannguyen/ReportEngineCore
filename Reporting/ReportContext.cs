@@ -45,7 +45,7 @@ namespace Reporting
                 if (disposing)
                 {
                     //Clean up directory
-                    Directory.Delete(GetSessionPath(), true);
+                    //Directory.Delete(GetSessionPath(), true);
                 }
                 disposedValue = true;
             }
