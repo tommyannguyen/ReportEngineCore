@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Reporting
 {
     public sealed class ReportContext : IDisposable
     {
-       
         public ReportContext(ILoggerFactory loggerFactory, string tempPath)
         {
             LoggerFactory = loggerFactory;

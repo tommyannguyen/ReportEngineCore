@@ -12,14 +12,13 @@ namespace Reporting.Test
 {
     public class ExportPdfTest : TestBase
     {
-
         [Fact]
         public async Task ExportPdfFromEngineAsync()
         {
             // factory return context
             using (var reportContext = CreateReportContext())
             {
-                var html2Pdf = new DinkToPdfRepository();
+                var html2PdfRepository = new DinkToPdfRepository();
                 IHtmlRenderTask viewEngine = new FluidRenderTask(reportContext);
                 IHtmlRenderTask preMailerEngine = new HtmlJsCssCleanupEngine(OutPutDirectory, reportContext);
                 var model = new { Name = "Con bướm xinh", Job = 100 };
@@ -29,7 +28,7 @@ namespace Reporting.Test
                 body = await preMailerEngine.RenderAsync(model, body);
 
                 File.WriteAllBytes("tententen.html", Encoding.UTF8.GetBytes(body));
-                File.WriteAllBytes("tententen.pdf", html2Pdf.ExportFromHtml(body));
+                File.WriteAllBytes("tententen.pdf", html2PdfRepository.ExportFromHtml(body));
                 Assert.True(true);
             }
         }
